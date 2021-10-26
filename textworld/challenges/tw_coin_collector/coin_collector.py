@@ -41,31 +41,6 @@ def build_argparser(parser=None):
 
     return parser
 
-def make_game_from_level(level: int, options: Optional[GameOptions] = None) -> textworld.Game:
-    """ Make a Coin Collector game of the desired difficulty level.
-    Arguments:
-        level: Difficulty level (see notes).
-        options:
-            For customizing the game generation (see
-            :py:class:`textworld.GameOptions <textworld.generator.game.GameOptions>`
-            for the list of available options).
-    Returns:
-        Generated game.
-    Notes:
-        Difficulty levels are defined as follows:
-        * Level   1 to 100: Nb. rooms = level, quest length = level
-        * Level 101 to 200: Nb. rooms = 2 * (level % 100), quest length = level % 100,
-          distractors rooms added along the chain.
-        * Level 201 to 300: Nb. rooms = 3 * (level % 100), quest length = level % 100,
-          distractors rooms *randomly* added along the chain.
-        * ...
-    """
-    n_distractors = (level // 100)
-    options.quest_length = level % 100
-    options.nb_rooms = (n_distractors + 1) * options.quest_length
-    distractor_mode = "random" if n_distractors > 2 else "simple"
-    return make_game(distractor_mode, options)
-
 def make(settings: Mapping[str, Any], options: Optional[GameOptions] = None) -> textworld.Game:
     """ Make a Coin Collector game of the desired difficulty settings.
 
